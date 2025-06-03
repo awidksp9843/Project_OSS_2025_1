@@ -37,6 +37,8 @@ class Calculator:
     def on_click(self, char):
         if char == 'C':
             self.expression = ""
+        elif char in ["/", "*", "-", "+", ".", "="] and self.expression.strip() == "":
+            pass
         elif char == '=':
             try:
                 self.expression = str(eval(self.expression))
