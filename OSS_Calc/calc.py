@@ -34,6 +34,29 @@ class Calculator:
                 )
                 btn.pack(side="left", expand=True, fill="both")
 
+        # 키보드 입력 처리용 키맵. 키=event.keysym, 값=버튼의 char
+        self.ALLOW_KEYS = {str(x): str(x) for x in range(10)}
+        self.ALLOW_KEYS |= {
+            "period": ".",
+            "plus": "+",
+            "minus": "-",
+            "asterisk": "*",
+            "slash": "/",
+            "equal": "=",
+            "Return": "=",  # 엔터키는 =키의 동작에 대응
+            "Escape": "C",  # Esc 키는 초기화 키에 대응
+            "BackSpace": "⌫",  # PR#1에 대한 지원
+            "exclam": "!",  # PR#11에 대한 지원
+            "percent": "%",  # PR#48에 대한 지원
+        }
+
+        self.root.bind("<Key>", self.bind_keys)
+
+    def bind_keys(self, event):
+        keysym = event.keysym
+        if keysym in self.ALLOW_KEYS:
+            self.on_click(self.ALLOW_KEYS[keysym])
+
     def on_click(self, char):
         if char == 'C':
             self.expression = ""
